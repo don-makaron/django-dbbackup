@@ -9,7 +9,12 @@ logger = logging.getLogger("dbbackup.command")
 
 
 def create_postgres_uri(self):
-    host = self.settings.get("HOST")
+    uri = self.settings.get('CONNECT_URI')
+
+    if uri:
+        return f'--dbname={uri}'
+
+    host = self.settings.get('HOST')
     if not host:
         raise DumpError("A host name is required")
 
