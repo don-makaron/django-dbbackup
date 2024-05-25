@@ -11,8 +11,8 @@ logger = logging.getLogger("dbbackup.command")
 def create_postgres_uri(self):
     uri = self.settings.get('CONNECT_URI')
 
-    if uri:
-        return f'--dbname={uri}'
+    if uri and uri.startswith('postgres'):
+        return f"--dbname={uri.replace('postgres://', 'postgresql://')}"
 
     host = self.settings.get('HOST')
     if not host:
